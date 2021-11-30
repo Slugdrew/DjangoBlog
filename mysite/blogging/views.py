@@ -5,24 +5,27 @@ from blogging.models import Post
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 
+
 class BloggingListView(ListView):
     model = Post
     template_name = "blogging/list.html"
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         published = Post.objects.exclude(published_date__exact=None)
-        context['posts'] = published.order_by("-published_date")
+        context["posts"] = published.order_by("-published_date")
         return context
+
+
 class BloggingDetailView(DetailView):
     model = Post
     template_name = "blogging/detail.html"
 
-    def get(self, request, *args,**kwargs):
+    def get(self, request, *args, **kwargs):
         post = self.get_object()
-        context = {"object":post}
-        return render(request, 'blogging/detail.html',context)
-        
-    
+        context = {"object": post}
+        return render(request, "blogging/detail.html", context)
+
 
 # def stub_view(request, *args, **kwargs):
 #     body = "Stub View\n\n"
